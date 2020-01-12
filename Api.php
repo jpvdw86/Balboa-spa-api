@@ -91,7 +91,33 @@ class Api {
         }
         $tempCode = $celcius * 2;
         $postString = "<sci_request version=\"1.0\"><data_service><targets><device id=\"{$this->deviceId}\"/></targets><requests><device_request target_name=\"SetTemp\">{$tempCode}</device_request></requests></data_service></sci_request>";
-        echo $this->apiCall('/devices/sci', 'POST', $postString, 'application/xml');
+        return $this->apiCall('/devices/sci', 'POST', $postString, 'application/xml');
+
+    }
+
+    /**
+     * Get all functions. response must go to DeviceDecoder
+     * @return bool|mixed|string
+     */
+    public function getDeviceDetails(){
+        if(!$this->deviceId || !$this->token){
+            return false;
+        }
+        $postString = "<sci_request version=\"1.0\"><file_system cache=\"false\"><targets><device id=\"{$this->deviceId}\"/></targets><commands><get_file path=\"DeviceConfiguration.txt\" syncTimeout=\"15\"/></commands></file_system></sci_request>";
+        return $this->apiCall('/devices/sci', 'POST', $postString, 'application/xml');
+
+    }
+
+    /**
+     * Get current state of the spa. Response must go to PanelDecoder
+     * @return bool|mixed|string
+     */
+    public function getPanelUpdate(){
+        if(!$this->deviceId || !$this->token){
+            return false;
+        }
+        $postString = "<sci_request version=\"1.0\"><file_system cache=\"false\"><targets><device id=\"{$this->deviceId}\"/></targets><commands><get_file path=\"PanelUpdate.txt\" syncTimeout=\"15\"/></commands></file_system></sci_request>";
+        return $this->apiCall('/devices/sci', 'POST', $postString, 'application/xml');
 
     }
 
