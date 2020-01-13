@@ -163,71 +163,184 @@ class PanelDecoder extends BaseDecoder {
         }
     }
 
-    public function getPumpStateOne(){
+    /**
+     * @return string
+     */
+    public function getPumpState1(){
+        $byte15 = $this->panelArray[15] & 48;
+        $byte16 = $this->panelArray[16] & 3;
 
+        if($byte16 == 1){
+            if($byte15 == 0){  //OR device has pomp 0
+                return "low";
+            } else {
+                return "low heat";
+            }
+        } elseif($byte16 != 2){
+            return "off";
+        } elseif ($byte15 == 0){
+            return "high";
+        }
+        return "high heat";
     }
 
+    /**
+     * @return string
+     */
+    public function getPumpState2(){
+        switch ($this->panelArray[16] & 12){
+            case 4:
+                return "low";
+                break;
+            case 8:
+                return "high";
+                break;
+            default:
+                return "off";
+                break;
+        }
+    }
 
+    /**
+     * @return string
+     */
+    public function getPumpState3(){
+        switch ($this->panelArray[16] & 48){
+            case 16:
+                return "low";
+                break;
+            case 32:
+                return "high";
+                break;
+            default:
+                return "off";
+                break;
+        }
+    }
 
+    /**
+     * @return string
+     */
+    public function getPumpState4(){
+        switch ($this->panelArray[16] & 192){
+            case 64:
+                return "low";
+                break;
+            case 128:
+                return "high";
+                break;
+            default:
+                return "off";
+                break;
+        }
+    }
 
-    ///
-    /// int tByte15 = byte15 & 48;
-    //        byte byte16 = packet[16];
-    //        byte b3 = byte16 & 3;
-    //        if (b3 == 1) {
-    //            if (tByte15 == 0 || SpaController.public) {
-    //                controlState.Pump1State = PumpState.Low;
-    //            } else {
-    //                controlState.Pump1State = PumpState.LowHeat;
-    //            }
-    //        } else if (b3 != 2) {
-    //            controlState.Pump1State = PumpState.Off;
-    //        } else if (tByte15 == 0 || SpaController.HasPump0) {
-    //            controlState.Pump1State = PumpState.High;
-    //        } else {
-    //            controlState.Pump1State = PumpState.HighHeat;
-    //        }
-    //        byte b4 = byte16 & 12;
-    //        if (b4 == 4) {
-    //            controlState.Pump2State = PumpState.Low;
-    //        } else if (b4 == 8) {
-    //            controlState.Pump2State = PumpState.High;
-    //        } else {
-    //            controlState.Pump2State = PumpState.Off;
-    //        }
-    //        byte b5 = byte16 & 48;
-    //        if (b5 == 16) {
-    //            controlState.Pump3State = PumpState.Low;
-    //        } else if (b5 == 32) {
-    //            controlState.Pump3State = PumpState.High;
-    //        } else {
-    //            controlState.Pump3State = PumpState.Off;
-    //        }
-    //        byte b6 = byte16 & 192;
-    //        if (b6 == 64) {
-    //            controlState.Pump4State = PumpState.Low;
-    //        } else if (b6 == 128) {
-    //            controlState.Pump4State = PumpState.High;
-    //        } else {
-    //            controlState.Pump4State = PumpState.Off;
-    //        }
-    //        byte byte17 = packet[17];
-    //        byte b7 = byte17 & 3;
-    //        if (b7 == 1) {
-    //            controlState.Pump5State = PumpState.Low;
-    //        } else if (b7 == 2) {
-    //            controlState.Pump5State = PumpState.High;
-    //        } else {
-    //            controlState.Pump5State = PumpState.Off;
-    //        }
-    //        byte b8 = byte17 & 12;
-    //        if (b8 == 4) {
-    //            controlState.Pump6State = PumpState.Low;
-    //        } else if (b8 == 8) {
-    //            controlState.Pump6State = PumpState.High;
-    //        } else {
-    //            controlState.Pump6State = PumpState.Off;
-    //        }
+    /**
+     * @return string
+     */
+    public function getPumpState5(){
+        switch ($this->panelArray[17] & 3){
+            case 1:
+                return "low";
+                break;
+            case 2:
+                return "high";
+                break;
+            default:
+                return "off";
+                break;
+        }
+    }
 
+    /**
+     * @return string
+     */
+    public function getPumpState6(){
+        switch ($this->panelArray[17] & 12){
+            case 4:
+                return "low";
+                break;
+            case 8:
+                return "high";
+                break;
+            default:
+                return "off";
+                break;
+        }
+    }
 
+    /**
+     * @return bool
+     */
+    public function isMisterOn(){
+        if (($this->panelArray[20] & 1) == 0) {
+            return false;
+        } else {
+            return true;
+        }
+    }
+
+    /**
+     * @return bool
+     */
+    public function isAux1On(){
+        if (($this->panelArray[20] & 8) == 0) {
+            return false;
+        } else {
+            return true;
+        }
+    }
+
+    /**
+     * @return bool
+     */
+    public function isAux2On(){
+        if (($this->panelArray[20] & 16) == 0) {
+            return false;
+        } else {
+            return true;
+        }
+    }
+
+    /**
+     * @return bool
+     */
+    public function getPumpStateStatus(){
+        $byte152 = $this->panelArray[15] & 48;
+        $byte10 = $this->panelArray[18] & 3;
+
+        if ($this->panelArray[16] < 1 && $this->panelArray[17] < 1 && $byte10 < 1) {
+            return "off";
+        } elseif ($byte152 == 0 ){ //OR device has pomp 0
+            return "low";
+        } else {
+            return "low heat";
+        }
+    }
+
+    /**
+     * @return string
+     */
+    public function getWifiState(){
+        switch ($this->panelArray[27] & 240){
+            case 0:
+                return "ok";
+                break;
+            case 16:
+                return "not communicating";
+                break;
+            case 32:
+                return "startup";
+                break;
+            case 48:
+                return "prime";
+                break;
+            case 64:
+                return "hold";
+                break;
+            case 80:
+                return "panel";
+                break;
+        }
+    }
 }

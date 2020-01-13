@@ -32,7 +32,7 @@ class Api {
 
         $result = $this->apiCall('/users/login', 'POST', $postFields, 'application/json');
         if(!isset($result['token']) || !isset($result['device']['device_id'])){
-            throw new \Exception("login faild");
+            throw new \Exception("login failed");
         }
         $this->token = $result['token'];
         $this->deviceId = $result['device']['device_id'];

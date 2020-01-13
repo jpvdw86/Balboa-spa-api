@@ -11,11 +11,11 @@ class BaseDecoder {
      * @return array
      */
     public function convertToBytes($message){
-        $out = [];
+        $output = [];
         for($i = 0; $i < strlen($message); $i++){
-            $out[]  = ord($message[$i]);
+            $output[]  = ord($message[$i]);
         }
-        return $out;
+        return $output;
     }
 
 }
