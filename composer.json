@@ -1,0 +1,38 @@
+{
+  "name": "jpvdw86/Balboa-spa-api",
+  "description": "Balboa spa / jacuzzi API client library for PHP.",
+  "keywords": [
+    "jacuzzi",
+    "balboa",
+    "spa"
+  ],
+  "homepage": "https://github.com/jpvdw86/Balboa-spa-api",
+  "license": "MIT License",
+  "authors": [
+    {
+      "name": "Jean-Paul van der Wegen.",
+      "email": "info@jpvdw.nl"
+    }
+  ],
+  "require": {
+    "php": ">=5.6",
+    "ext-curl": "*",
+    "ext-json": "*"
+  },
+  "require-dev": {
+  },
+  "config": {
+    "sort-packages": true
+  },
+  "autoload": {
+    "psr-4": {
+      "jpvdw\\Balboa\\Decoder\\": "src/"
+    },
+  },
+  "autoload-dev": {
+    "psr-4": {
+    }
+  },
+  "scripts": {
+  }
+}
