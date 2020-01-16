@@ -19,20 +19,9 @@
     "ext-curl": "*",
     "ext-json": "*"
   },
-  "require-dev": {
-  },
-  "config": {
-    "sort-packages": true
-  },
   "autoload": {
     "psr-4": {
-      "jpvdw\\Balboa\\Decoder\\": "src/"
-    },
-  },
-  "autoload-dev": {
-    "psr-4": {
+      "Jpvdw\\Balboa\\": "src/"
     }
-  },
-  "scripts": {
   }
 }
