@@ -10,7 +10,7 @@ class PanelDecoder extends BaseDecoder {
     
     public function __construct($message)
     {
-        parent::__construct($message);
+        $this->panelArray = $this->convertToBytes($message);
     }
 
     /**
@@ -169,6 +169,9 @@ class PanelDecoder extends BaseDecoder {
     public function getPumpState1(){
         $byte15 = $this->panelArray[15] & 48;
         $byte16 = $this->panelArray[16] & 3;
+
+        var_dump($byte15);
+        var_dump($byte16);
 
         if($byte16 == 1){
             if($byte15 == 0){  //OR device has pomp 0
