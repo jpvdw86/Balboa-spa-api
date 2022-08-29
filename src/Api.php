@@ -91,7 +91,12 @@ class Api {
         }
         $tempCode = $celcius * 2;
         $postString = "<sci_request version=\"1.0\"><data_service><targets><device id=\"{$this->deviceId}\"/></targets><requests><device_request target_name=\"SetTemp\">{$tempCode}</device_request></requests></data_service></sci_request>";
-        return $this->apiCall('/devices/sci', 'POST', $postString, 'application/xml');
+        $data =  $this->apiCall('/devices/sci', 'POST', $postString, 'application/xml');
+        preg_match('~<sci_reply version="1.0"><file_system><device id="(.*?)"><commands><get_file><data>(.*?)</data></get_file></commands></device></file_system></sci_reply>~', $data, $matches);
+        if (!isset($matches[2]) ) {
+            throw new Exception('Parsing failed');
+        }
+        return base64_decode(utf8_encode($matches[2]));
 
     }
 
@@ -104,8 +109,12 @@ class Api {
             return false;
         }
         $postString = "<sci_request version=\"1.0\"><file_system cache=\"false\"><targets><device id=\"{$this->deviceId}\"/></targets><commands><get_file path=\"DeviceConfiguration.txt\" syncTimeout=\"15\"/></commands></file_system></sci_request>";
-        return $this->apiCall('/devices/sci', 'POST', $postString, 'application/xml');
-
+        $data =  $this->apiCall('/devices/sci', 'POST', $postString, 'application/xml');
+        preg_match('~<sci_reply version="1.0"><file_system><device id="(.*?)"><commands><get_file><data>(.*?)</data></get_file></commands></device></file_system></sci_reply>~', $data, $matches);
+        if (!isset($matches[2]) ) {
+            throw new Exception('Parsing failed');
+        }
+        return base64_decode(utf8_encode($matches[2]));
     }
 
     /**
