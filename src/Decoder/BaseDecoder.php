@@ -2,7 +2,7 @@
 
 namespace jpvdw\Balboa\Decoder;
 
-class BaseDecoder {
+abstract class BaseDecoder {
 
 
     /**
@@ -12,6 +12,7 @@ class BaseDecoder {
      */
     public function convertToBytes($message){
         $output = [];
+        $output[0] = 126;
         for($i = 0; $i < strlen($message); $i++){
             $output[]  = ord($message[$i]);
         }
