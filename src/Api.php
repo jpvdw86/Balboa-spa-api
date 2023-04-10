@@ -6,7 +6,7 @@ class Api {
 
     public static function getBearerTokenAndDeviceId(string $userName, string $password): array
     {
-        $postFields = json_encode(["username" => $userName, "password" => $password], JSON_THROW_ON_ERROR);
+        $postFields = json_encode(["username" => $userName, "password" => $password]);
 
         $headers = [
             'User-Agent: BWA/4.1 (com.createch-group.balboa; build:10; iOS 13.3.0) Alamofire/4.8.1',
@@ -27,7 +27,7 @@ class Api {
         }
         curl_close($ch);
 
-        $result = json_decode($result, true, 512, JSON_THROW_ON_ERROR);
+        $result = json_decode($result, true);
         if(!isset($result['token'], $result['device']['device_id'])){
             throw new \RuntimeException('Login Failed');
         }

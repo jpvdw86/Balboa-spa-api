@@ -72,9 +72,6 @@ class Panel {
         }
     }
 
-    /**
-     * function is not defined
-     */
     public function getAccessibilityType(): string
     {
         $modeCode = $this->panelArray[14] & 48;
@@ -91,8 +88,7 @@ class Panel {
     }
 
     /**
-     * Time scale on 24 hous or 12 hour scale
-     * @return bool
+     * Time scale on 24 hour or 12 hour scale
      */
     public function is24TimeScale(): bool
     {
@@ -272,6 +268,5 @@ class Panel {
             case 80:
                 return "panel";
         }
-
     }
 }

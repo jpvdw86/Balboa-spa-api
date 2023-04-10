@@ -8,10 +8,6 @@ class Device
 {
     private array $deviceArray;
 
-    /**
-     * DeviceDecoder constructor.
-     * @param $message
-     */
     public function __construct($message)
     {
         $this->deviceArray = Decoder::decode($message);
